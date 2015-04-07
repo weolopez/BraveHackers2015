@@ -1,0 +1,11 @@
+{
+  "name": "angular-quick-seed",
+  "version": "0.0.1",
+  "dependencies": {
+   "att-core":"https://codecloud.web.att.com/scm/onlinetoolkit/bower-angular.att.core.git",
+   "att-abs":"https://codecloud.web.att.com/scm/onlinetoolkit/bower-angular.att.abs.git",
+   "jquery":"https://codecloud.web.att.com/scm/onlinetoolkit/external-libraries.git#jquery",
+   "angular":"https://codecloud.web.att.com/scm/onlinetoolkit/external-libraries.git#angular"
+  } 
+  
+}

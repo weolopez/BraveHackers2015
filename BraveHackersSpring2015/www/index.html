@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+
+
+        <!-- build:css({.tmp,app}) styles/style.css -->
+        <link type="text/css" rel="stylesheet" href="content/styles/style.css"/>
+        <link type="text/css" rel="stylesheet" href="content/styles/application.css"/>
+        <!-- endbuild -->
+
+
+        <title ng-bind="title"></title>
+
+
+    </head>
+    <body>
+
+        <div ng-view></div>
+
+
+
+
+        <script src="library/vendor/jquery/jquery.js"></script>
+        <script src="library/vendor/angular/angular.js"></script>
+        <script src="library/vendor/angular/angular-route.js"></script>
+        <!-- build:js({.tmp,app}) js/scripts.min.js -->
+
+        <script src="app.js"></script>
+        <script src="login/app.login.js"></script>
+        <script src="login/loginCtrl.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>
