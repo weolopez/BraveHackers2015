@@ -377,7 +377,7 @@ body {
 BEGIN CSS RESET (NORMALIZE) *************************** 
 */
 html {
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 article,
 aside,
@@ -782,6 +782,7 @@ body {
   line-height: 20px;
   color: #333333;
   background-color: #ffffff;
+  overflow: hidden;
 }
 @font-face {
   font-family: 'omnes';

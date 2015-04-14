@@ -7,7 +7,7 @@ angular.module('app.login', [])
                             controller: LoginCtrl
                         });
     
-    $routeProvider.otherwise({redirectTo: '/login'});
+    $routeProvider.otherwise({redirectTo: '/tv'});
 }])
 
 .run(['$rootScope', function ($rootScope) {
