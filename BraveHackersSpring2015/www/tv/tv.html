@@ -102,6 +102,107 @@
             float: right;line-height: 42px;display: inline-block;box-sizing: border-box;
             margin-right: 10px;
         }
+        
+        //CHAT BULES
+  /* Bit of normalisation */
+
+
+img {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+.container {
+	padding: 40px 20px;
+	margin: 0 auto;
+	width: 400px;
+}
+
+/* .bubble */
+
+.bubble {
+	background-image: linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -o-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -moz-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -webkit-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -ms-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.25, rgb(210,244,254)),
+	color-stop(1, rgb(149,194,253))
+);
+	border: solid 1px rgba(0, 0, 0, 0.5);
+	/* vendor rules */
+	border-radius: 20px;
+	/* vendor rules */
+	box-shadow: inset 0 5px 5px rgba(255, 255, 255, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
+	/* vendor rules */
+	box-sizing: border-box;
+	clear: both;
+	float: left;
+	margin-bottom: 20px;
+	padding: 8px 30px;
+	position: relative;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+	width: auto;
+	max-width: 100%;
+	word-wrap: break-word;
+}
+
+.bubble:before, .bubble:after {
+	border-radius: 20px / 10px;
+	content: '';
+	display: block;
+	position: absolute;
+}
+
+.bubble:before {
+	border: 10px solid transparent;
+	border-bottom-color: rgba(0, 0, 0, 0.5);
+	bottom: 0;
+	left: -7px;
+	z-index: -2;
+}
+
+.bubble:after {
+	border: 8px solid transparent;
+	border-bottom-color: #d2f4fe;
+	bottom: 1px;
+	left: -5px;
+}
+
+.bubble--alt {
+	background-image: linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -o-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -moz-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -webkit-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -ms-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.25, rgb(172,228,75)),
+	color-stop(1, rgb(122,205,71))
+);
+	float: right;
+}
+
+.bubble--alt:before {
+	border-bottom-color: rgba(0, 0, 0, 0.5);
+	border-radius: 20px / 10px;
+	left: auto;
+	right: -7px;
+}
+
+.bubble--alt:after {
+	border-bottom-color: #ace44b;
+	border-radius: 20px / 10px;
+	left: auto;
+	right: -5px;
+}
     </style>
 
     <div class="header row">
@@ -137,12 +238,35 @@
             </div>
         </div>
         <div class="chat col">
-            chatroom
+            <div class="container">
+
+
+                <div class="bubble">
+                    <img src="https://pbs.twimg.com/profile_images/573984336271122432/k8vEBoCW_bigger.jpeg" />Blue text bubble
+                </div>
+
+                <div class="bubble bubble--alt">
+                     Green text bubble <img src="https://pbs.twimg.com/profile_images/587986635788193794/3Q85Cofv_bigger.jpg" />
+                </div>
+
+                <div class="bubble">
+                    <img src="https://pbs.twimg.com/profile_images/573984336271122432/k8vEBoCW_bigger.jpeg" />A bubble containing lots and lots and lots and lots of content on multiple lines
+                </div>
+
+                <div class="bubble bubble--alt">
+                    Bubble with image <img src="https://pbs.twimg.com/profile_images/587986635788193794/3Q85Cofv_bigger.jpg" />
+                </div>
+
+                <div class="bubble">
+                    <img src="https://pbs.twimg.com/profile_images/573984336271122432/k8vEBoCW_bigger.jpeg" />Bubblewitharidiculouslylongwordwhichwrapseffortlesslyontotwolines
+                </div>
+
+            </div>
         </div>
-        
-                <h1>HTML5 local video file player example</h1>
-                <div id="message"></div>
-                <input type="file" accept="video/*"/>
+
+        <h1>HTML5 local video file player example</h1>
+        <div id="message"></div>
+        <input type="file" accept="video/*"/>
     </div>
     <div class="footer row">
         <footer>
@@ -172,50 +296,50 @@
     </div>
 </div>
 <script>
-    (function localFileVideoPlayerInit(win) {
-    var URL = win.URL || win.webkitURL,
-        displayMessage = (function displayMessageInit() {
-            var node = document.querySelector('#message');
+            (function localFileVideoPlayerInit(win) {
+                var URL = win.URL || win.webkitURL,
+                        displayMessage = (function displayMessageInit() {
+                            var node = document.querySelector('#message');
 
-            return function displayMessage(message, isError) {
-                node.innerHTML = message;
-                node.className = isError ? 'error' : 'info';
-            };
-        }()),
-        playSelectedFile = function playSelectedFileInit(event) {
-            var file = this.files[0];
+                            return function displayMessage(message, isError) {
+                                node.innerHTML = message;
+                                node.className = isError ? 'error' : 'info';
+                            };
+                        }()),
+                        playSelectedFile = function playSelectedFileInit(event) {
+                            var file = this.files[0];
 
-            var type = file.type;
+                            var type = file.type;
 
-            var videoNode = document.querySelector('video');
+                            var videoNode = document.querySelector('video');
 
-            var canPlay = videoNode.canPlayType(type);
+                            var canPlay = videoNode.canPlayType(type);
 
-            canPlay = (canPlay === '' ? 'no' : canPlay);
+                            canPlay = (canPlay === '' ? 'no' : canPlay);
 
-            var message = 'Can play type "' + type + '": ' + canPlay;
+                            var message = 'Can play type "' + type + '": ' + canPlay;
 
-            var isError = canPlay === 'no';
+                            var isError = canPlay === 'no';
 
-            displayMessage(message, isError);
+                            displayMessage(message, isError);
 
-            if (isError) {
-                return;
-            }
+                            if (isError) {
+                                return;
+                            }
 
-            var fileURL = URL.createObjectURL(file);
+                            var fileURL = URL.createObjectURL(file);
 
-            videoNode.src = fileURL;
-        },
-        inputNode = document.querySelector('input');
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-    if (!URL) {
-        displayMessage('Your browser is not ' + 
-           '<a href="http://caniuse.com/bloburls">supported</a>!', true);
-        
-        return;
-    }                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-    inputNode.addEventListener('change', playSelectedFile, false);
-}(window));
+                            videoNode.src = fileURL;
+                        },
+                        inputNode = document.querySelector('input');
+
+                if (!URL) {
+                    displayMessage('Your browser is not ' +
+                            '<a href="http://caniuse.com/bloburls">supported</a>!', true);
+
+                    return;
+                }
+
+                inputNode.addEventListener('change', playSelectedFile, false);
+            }(window));
 </script>
