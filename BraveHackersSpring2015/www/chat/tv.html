@@ -1,0 +1,344 @@
+<div data-snap-drawer="right" >
+TEST
+</div>
+
+<div class="right col" data-snap-content snap-options="opts">
+    <style type="text/css">
+        ﻿/* Generic pane rules */
+        body { margin: 0; -webkit-text-size-adjust: 100%;overflow: hidden; min-width: 300px}
+        .page { left: 0; right: 0; top: 0; bottom: 0;overflow: hidden; }
+        .row, .col, .page { overflow: hidden; position: absolute; }
+        .row { left: 0; right: 0; }
+        .col { top: 0; bottom: 0; }
+        .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .scroll-y { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .fill, .pane { position: absolute; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100% }
+        .pane { display: none; }
+
+        /* Workaround: in landscape mode, IEMobile makes bottom toolbar overlap the page, so shorten the page by 75px to compensate */
+        .iemobile .page { bottom: -6px; }
+
+
+
+        @media screen and (orientation:landscape) { .iemobile .page { bottom: 75px; } }
+        .right.col { right: 0; left: 0px; overflow: hidden; }
+        .header.row { height: 75px; line-height: 75px; }
+        .body.row { top: 42px; bottom: 0; }
+        .footer.row { height: 10px; bottom: 0; line-height: 150px; background-color: #089be5}
+        .wrapper {
+            width:75%;
+            /* whatever width you want */
+            display: none;
+            position: relative;
+        }
+        .wrapper:after {
+            padding-top: 56.25%;
+            /* 16:9 ratio */
+            display: block;
+            content: '';
+            float: left;
+            left: 0;
+            background-color: black;
+        }
+        .main {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            /* fill parent */
+            background-color: grey;
+            /* let's see it! */
+            color: white;
+        }
+        .chat {
+            width: 100%;
+            float: right;    
+            right: 0;
+            background-color: silver;
+        }
+
+        @media (max-width: 768px) and (orientation: portrait) {
+            .wrapper {
+                width: 100%;
+                float: none;
+                position: relative;
+            }
+            .chat {
+                width: 100%;
+                height: 100%;
+                float: none;
+                position: relative;
+                bottom: 0;
+            }            
+        }
+        @media (max-width: 735px) and (orientation: landscape) {
+            .wrapper {
+                display: none;
+            }
+            .chat {
+                width: 100%;
+                height: 100%;
+                float: none;
+                position: relative;
+                bottom: 0;
+            }            
+        }
+        .title {
+            width: 60%;
+            color: white;
+            height: 42px;
+            line-height: 42px;
+            font-weight: bolder;
+            font-size: larger;    
+            display: inline-block;
+            float: right;
+
+        }
+        .logoHolder {
+            width: 100px;
+        }
+        .hamberger {
+            float: right;line-height: 42px;display: inline-block;box-sizing: border-box;
+            margin-right: 10px;
+        }
+        
+        //CHAT BULES
+  /* Bit of normalisation */
+
+
+img {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+.container {
+	padding: 40px 20px;
+	margin: 0 auto;
+	width: 400px;
+}
+
+/* .bubble */
+
+.bubble {
+	background-image: linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -o-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -moz-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -webkit-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -ms-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.25, rgb(210,244,254)),
+	color-stop(1, rgb(149,194,253))
+);
+	border: solid 1px rgba(0, 0, 0, 0.5);
+	/* vendor rules */
+	border-radius: 20px;
+	/* vendor rules */
+	box-shadow: inset 0 5px 5px rgba(255, 255, 255, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
+	/* vendor rules */
+	box-sizing: border-box;
+	clear: both;
+	float: left;
+	margin-bottom: 20px;
+	padding: 8px 30px;
+	position: relative;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+	width: auto;
+	max-width: 100%;
+	word-wrap: break-word;
+}
+
+.bubble:before, .bubble:after {
+	border-radius: 20px / 10px;
+	content: '';
+	display: block;
+	position: absolute;
+}
+
+.bubble:before {
+	border: 10px solid transparent;
+	border-bottom-color: rgba(0, 0, 0, 0.5);
+	bottom: 0;
+	left: -7px;
+	z-index: -2;
+}
+
+.bubble:after {
+	border: 8px solid transparent;
+	border-bottom-color: #d2f4fe;
+	bottom: 1px;
+	left: -5px;
+}
+
+.bubble--alt {
+	background-image: linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -o-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -moz-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -webkit-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -ms-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.25, rgb(172,228,75)),
+	color-stop(1, rgb(122,205,71))
+);
+	float: right;
+}
+
+.bubble--alt:before {
+	border-bottom-color: rgba(0, 0, 0, 0.5);
+	border-radius: 20px / 10px;
+	left: auto;
+	right: -7px;
+}
+
+.bubble--alt:after {
+	border-bottom-color: #ace44b;
+	border-radius: 20px / 10px;
+	left: auto;
+	right: -5px;
+}
+    </style>
+
+    <div class="header row">
+        <header>
+            <div class="headerBack">
+
+            </div>
+            <div class="navSpans">
+                <div class="logoHolder">
+                    <a href="" class="logo">[at&amp;t home]</a>
+                    <a href="" class="">
+                    </a>
+                    <a href="" class="logoHeader">
+                    </a>
+                </div>
+                <div class="title row-fluid-nowrap">
+                    <div href="" style="display: inline-block;" ng-click="login('twitter')">
+                        LOGIN
+                    </div>
+                    <div class="hamberger" ng-click="showMenu()">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                </div>
+                <div class="clearIt"></div>
+            </div>
+
+        </header>
+    </div>
+    <div class="body row scroll-y">
+        <div class="wrapper col">
+            <div class="main">
+                <video controls autoplay style="width: 100%"></video>
+            </div>
+        </div>
+        <div class="chat col">
+            <div class="container">
+
+                <div class="bubble">
+                    <img src="https://pbs.twimg.com/profile_images/573984336271122432/k8vEBoCW_bigger.jpeg" />Blue text bubble
+                </div>
+
+                <div class="bubble bubble--alt">
+                     Green text bubble <img src="https://pbs.twimg.com/profile_images/587986635788193794/3Q85Cofv_bigger.jpg" />
+                </div>
+
+                <div class="bubble">
+                    <img src="https://pbs.twimg.com/profile_images/573984336271122432/k8vEBoCW_bigger.jpeg" />A bubble containing lots and lots and lots and lots of content on multiple lines
+                </div>
+
+                <div class="bubble bubble--alt">
+                    Bubble with image <img src="https://pbs.twimg.com/profile_images/587986635788193794/3Q85Cofv_bigger.jpg" />
+                </div>
+
+                <div class="bubble">
+                    <img src="https://pbs.twimg.com/profile_images/573984336271122432/k8vEBoCW_bigger.jpeg" />Bubblewitharidiculouslylongwordwhichwrapseffortlesslyontotwolines
+                </div>
+
+            </div>
+        </div>
+
+        <h1>HTML5 local video file player example</h1>
+        <div id="message"></div>
+        <input type="file" accept="video/*"/>
+    </div>
+    <div class="footer row">
+        <footer>
+            <div id="footerNav" class="component">
+                <div class="ui-grid-b">
+                    <div class="ui-block-a footerTab1">
+                        <p>
+                            <a href="">ATT.NET</a>
+                        </p>
+                    </div>
+                    <div class="ui-block-b footerTab2">
+                        <p>
+                            <a href="">BUSINESS</a>
+                        </p>
+                    </div>
+                    <div class="ui-block-c footerTab3">
+                        <p>
+                            <a href="">ABOUT AT&amp;T</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div id="footerBtm" class="component">
+            </div>
+        </footer>
+    </div>
+</div>
+<script>
+            (function localFileVideoPlayerInit(win) {
+                var URL = win.URL || win.webkitURL,
+                        displayMessage = (function displayMessageInit() {
+                            var node = document.querySelector('#message');
+
+                            return function displayMessage(message, isError) {
+                                node.innerHTML = message;
+                                node.className = isError ? 'error' : 'info';
+                            };
+                        }()),
+                        playSelectedFile = function playSelectedFileInit(event) {
+                            var file = this.files[0];
+
+                            var type = file.type;
+
+                            var videoNode = document.querySelector('video');
+
+                            var canPlay = videoNode.canPlayType(type);
+
+                            canPlay = (canPlay === '' ? 'no' : canPlay);
+
+                            var message = 'Can play type "' + type + '": ' + canPlay;
+
+                            var isError = canPlay === 'no';
+
+                            displayMessage(message, isError);
+
+                            if (isError) {
+                                return;
+                            }
+
+                            var fileURL = URL.createObjectURL(file);
+
+                            videoNode.src = fileURL;
+                        },
+                        inputNode = document.querySelector('input');
+
+                if (!URL) {
+                    displayMessage('Your browser is not ' +
+                            '<a href="http://caniuse.com/bloburls">supported</a>!', true);
+
+                    return;
+                }
+
+                inputNode.addEventListener('change', playSelectedFile, false);
+            }(window));
+</script>

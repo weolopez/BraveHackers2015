@@ -1,1 +1,1 @@
-var app = angular.module('app', ['ngRoute','app.login','snap','app.tv']);
+var app = angular.module('app', ['ngRoute','app.login','snap','app.tv','app.chat']);
