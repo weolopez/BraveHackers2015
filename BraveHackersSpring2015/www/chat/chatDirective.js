@@ -9,6 +9,8 @@ angular.module('chatDirecive', [])
                 },
                 controller: function ($scope) {
 
+                },
+                link: function (scope, ele, attr) {
                 }
             };
         })

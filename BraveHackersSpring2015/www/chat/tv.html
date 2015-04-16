@@ -1,8 +1,14 @@
-<div data-snap-drawer="left" >
-    <button ng-hide="user"  ng-click="login('twitter')">LOGIN</button>
-</div>
+<div data-snap-drawer="right" style="background-color: black;height: 100%">
+    <h1 style="text-align: center;margin: 0 auto;padding: 15px; color: white">Users</h1>
+    <div ng-repeat="u in usersArray" style="position: relative;display: inline-flex;width: 100%;">
+        <img src="{{u.icon}}" />
+        <h1 style="margin-left: 5px;color: white;">{{u.name}}</h1>
+    </div>
+    
+    <button ng-hide="user" ng-click="login('twitter')" style="bottom: 0">LOGIN</button>
+</div>`
 
-<div class="right col" data-snap-content snap-options="opts">
+<div class="right col" data-snap-content snap-options="{disable: 'left'}">
     <style type="text/css">
         ﻿/* Generic pane rules */
         body { margin: 0; -webkit-text-size-adjust: 100%;overflow: hidden; min-width: 300px}
@@ -23,13 +29,15 @@
         @media screen and (orientation:landscape) { .iemobile .page { bottom: 75px; } }
         .right.col { right: 0; left: 0px; overflow: hidden; }
         .header.row { height: 75px; line-height: 75px; }
-        .body.row { top: 42px; bottom: 0; }
-        .footer.row { height: 10px; bottom: 0; line-height: 150px; background-color: #089be5}
+        .body.row { top: 42px; bottom: 42px; background-color: black}
+        .footer.row { height: 42px; bottom: 0; line-height: 40px; background-color: black;}
+
         .wrapper {
             width:75%;
             /* whatever width you want */
             display: block;
             position: relative;
+            bottom: 42px;
         }
         .wrapper:after {
             padding-top: 56.25%;
@@ -55,7 +63,9 @@
             width: 25%;
             float: right;    
             right: 0;
-            background-color: silver;
+            bottom: 42px;
+            background-color: black;
+            overflow-y: auto;
         }
 
         @media (max-width: 768px) and (orientation: portrait) {
@@ -113,10 +123,10 @@
             max-width: 100%;
         }
 
-        .container {
-            padding: 40px 20px;
+        .chatcontainer {
+            padding: 0px 0px;
             margin: 0 auto;
-            width: 400px;
+            width: 95%;
         }
 
         /* .bubble */
@@ -203,6 +213,14 @@
             left: auto;
             right: -5px;
         }
+        .chatinput {
+            position: relative;
+            float: right;
+            width:  25%;
+            //  float: bottom;
+            //bottom: 1px;
+        }
+        .footer {display:inline-block;margin-left:0px; width: 75%;float: left;background-color: black;}
     </style>
 
     <div class="header row">
@@ -237,43 +255,20 @@
                 <video controls autoplay style="width: 100%"></video>
             </div>
         </div>
-        <div class="chat col">
-            <div class="container">
-
-                <chat messages="messages"></chat>
-
-                <div ng-show="user">
-                    <input type="text" ng-model="msg"/>
-                    <button ng-click="addMessage()">Send</button>
+        <div class="col right" style="overflow: auto;right: -15px" scroll-glue>
+            <div class="chat">
+                <div class="chatcontainer" >
+                    <chat messages="messages"></chat>
                 </div>
-
             </div>
-
-        </div>
-        <div class="footer row">
-            <footer>
-                <div id="footerNav" class="component">
-                    <div class="ui-grid-b">
-                        <div class="ui-block-a footerTab1">
-                            <p>
-                                <a href="">ATT.NET</a>
-                            </p>
-                        </div>
-                        <div class="ui-block-b footerTab2">
-                            <p>
-                                <a href="">BUSINESS</a>
-                            </p>
-                        </div>
-                        <div class="ui-block-c footerTab3">
-                            <p>
-                                <a href="">ABOUT AT&amp;T</a>
-                            </p>
-                        </div>
-
-                    </div>
-                </div>
-                <div id="footerBtm" class="component">
-                </div>
-            </footer>
         </div>
     </div>
+    <div class="footer row" style="width: 100%;">
+        <div class="footer">
+        </div>
+        <div style="background-color: black;height: 45px; display:inline-block; width:25%;float: right;" ng-show="user">
+            <input type="text" ng-model="msg" style="width: 80%;margin: 3px;padding: 0"/>
+            <button ng-click="addMessage()"  style="width: 15%;margin: 0;padding: 0">Send</button>
+        </div>
+    </div>
+</div>

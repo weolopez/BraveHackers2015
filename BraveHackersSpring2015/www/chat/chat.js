@@ -1,4 +1,4 @@
-angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase'])
+angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'luegg.directives'])
         .config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/chat/:name',
                         {
@@ -8,7 +8,7 @@ angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase'])
                         });
             }])
 
-function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObject, $firebaseAuth) {
+function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObject, $firebaseAuth, $interval) {
 
     $scope.currentRoom = $routeParams.name;
     /* var ref = new Firebase("https://uverse-social.firebaseio.com/chat");
@@ -18,17 +18,17 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
     var ref = new Firebase("https://uverse-social.firebaseio.com/chat/rooms/" + $scope.currentRoom);
     var room = $firebaseObject(ref);
     room.$loaded().then(function () {
-        console.log("loaded record:", room.$id);
         if (room.name === undefined) {
             room.name = $scope.currentRoom;
             room.messages = {};
+            room.users = {};
             room.$save().then(function () {
                 $scope.messages = $firebaseArray(ref.child('messages'));
-                $scope.users = $firebaseArray(ref.child('messages'));
+                $scope.usersArray = $firebaseArray(ref.child('users'));
             });
         } else {
             $scope.messages = $firebaseArray(ref.child('messages'));
-            $scope.users = $firebaseArray(ref.child('messages'));
+            $scope.usersArray = $firebaseArray(ref.child('users'));
         }
     });
 
@@ -48,9 +48,21 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
             $scope.user = {};
             $scope.user.name = authData.twitter.cachedUserProfile.name;
             $scope.user.icon = authData.twitter.cachedUserProfile.profile_image_url;
-            $scope.users.$add($scope.user);
+            
+            if (!room.users) 
+                room.users = {};
+            if (!room.users[$scope.user.name])  {
+                room.users[$scope.user.name] = $scope.user;
+                room.$save().then(function(reference){
+                    console.dir(reference);
+                });
+            }
         }).catch(function (error) {
             console.log("Authentication failed:", error);
         });
     }
+    $scope.showMenu = function () {
+        snapRemote.toggle('right');
+    }
+
 }

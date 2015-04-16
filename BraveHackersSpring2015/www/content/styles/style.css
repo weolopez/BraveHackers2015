@@ -7183,7 +7183,7 @@ footer #footerNav {
 }
 #footerNav p {
   margin: 0;
-  padding: 10px 2px 9px;
+  padding: 0px 2px 9px;
 }
 .footerTab1 p,
 .footerTab2 p,
@@ -7261,6 +7261,7 @@ footer #footerNav {
 }
 footer {
   margin: 0;
+  width: 75%;
 }
 /*End: Footer Code */
 /* STUFF FOR SEARCH */
@@ -7671,8 +7672,8 @@ div.field-group {
 }
 /*@media (max-width: 480px) {*/
 .container {
-  width: auto;
-  padding: 0;
+  /* width: auto; */
+  /* padding: 0; */
 }
 .form-horizontal .control-label {
   float: none;
