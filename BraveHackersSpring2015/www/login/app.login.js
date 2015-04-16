@@ -7,7 +7,7 @@ angular.module('app.login', [])
                             controller: LoginCtrl
                         });
     
-    $routeProvider.otherwise({redirectTo: '/chat'});
+    $routeProvider.otherwise({redirectTo: '/chat/bravehackers'});
 }])
 
 .run(['$rootScope', function ($rootScope) {

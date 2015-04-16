@@ -7,10 +7,8 @@ angular.module('chatDirecive', [])
                 scope: {
                     mgs: '=messages'
                 },
-                link: function (scope) {
-                    scope.$watch("mgs", function (newValue, oldValue) {
-                        console.log(newValue);
-                    });
+                controller: function ($scope) {
+
                 }
             };
         })
