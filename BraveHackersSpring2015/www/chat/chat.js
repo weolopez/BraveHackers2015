@@ -36,7 +36,9 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
     $scope.addMessage = function () {
         $scope.messages.$add(
                 {message: $scope.msg, usericon: $scope.user.icon}
-        );
+        ).then(function(){
+            $scope.msg = "";
+        });
     }
 
     $scope.login = function (provider) {

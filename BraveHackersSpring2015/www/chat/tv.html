@@ -267,7 +267,7 @@
         <div class="footer">
         </div>
         <div style="background-color: black;height: 45px; display:inline-block; width:25%;float: right;" ng-show="user">
-            <input type="text" ng-model="msg" style="width: 80%;margin: 3px;padding: 0"/>
+            <input type="text" ng-model="msg" style="width: 80%;margin: 3px;padding: 0" ng-keyup="$event.keyCode == 13 && addMessage()"/>
             <button ng-click="addMessage()"  style="width: 15%;margin: 0;padding: 0">Send</button>
         </div>
     </div>
