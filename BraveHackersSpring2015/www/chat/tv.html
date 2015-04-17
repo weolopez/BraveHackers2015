@@ -1,18 +1,74 @@
-<div data-snap-drawer="right" style="background-color: black;height: 100%">
-    <h1 style="text-align: center;margin: 0 auto;padding: 15px; color: white">Users</h1>
-    <div ng-repeat="u in usersArray" style="position: relative;display: inline-flex;width: 100%;">
-        <img src="{{u.icon}}" />
-        <h1 style="margin-left: 5px;color: white;">{{u.name}}</h1>
+<div data-snap-drawer="right">
+
+    <div class="app blackBackground">
+        <!-- TOP -->
+
+        <div class="navbar navbar-app navbar-absolute-top blackBackground">
+            <ul class="nav nav-tabs  blackBackground tabstyle" ui-state='activeTab' ui-default='1'>
+                <li ui-class="{'active': activeTab == 1}">
+                    <a ui-set="{'activeTab': 1}">Users</a>
+                </li>
+                <li ui-class="{'active': activeTab == 2}">
+                    <a ui-set="{'activeTab': 2}">Login</a>
+                </li>
+                <li ui-class="{'active': activeTab == 3}">
+                    <a ui-set="{'activeTab': 3}">Video</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Middle -->
+
+        <div class="app-body  blackBackground">
+            <div ui-if="activeTab == 1">
+                <div ng-repeat="u in usersArray" style="positio
+                     .blackBackgroundn: relative;display: inline-flex;width: 100%;">
+                    <img src="{{u.icon}}" />
+                    <h1 style="margin-left: 5px;color: white;">{{u.name}}</h1>
+                </div>
+            </div>
+
+            <div ui-if="activeTab == 2">
+                <button ng-hide="user" ng-click="login('twitter')" style="bottom: 0;margin: 0 auto;">Twitter Login</button>
+            </div>
+
+            <div ui-if="activeTab == 3">
+                <h3>Select local video file to play</h3>
+                <div id="message"></div>
+                <input id="videobutton" type="file" accept="video/*"/>    
+            </div>   
+        </div>
+
+        <!-- BOTTOM -->
+
+        <div class="navbar navbar-app navbar-absolute-bottom blackBackground">       
+            <div class="btn-group justified" style="margin-left: 20px;">
+                <div id="loginbutton" tabindex="0" class="bottombutton" ng-click="login('twitter')"><i class="fa fa-sign-in"></i></div>
+                <div class="bottombutton"  ng-click="clickvideo()" id="select_logo"><i class="fa fa-video-camera"></i></div>               
+                <div class="bottombutton" ng-click="shareLink()" ><i class="fa fa-share fa5"></i></div>  
+                <input id="videobutton" type="file" accept="video/*"/>    
+            </div>
+        </div>
     </div>
-
-    <button ng-hide="user" ng-click="login('twitter')" style="bottom: 0">LOGIN</button>
-        <h3>Select local video file to play</h3>
-        <div id="message"></div>
-        <input type="file" accept="video/*"/>    
-</div>`
-
+</div>
 <div class="right col" data-snap-content snap-options="{disable: 'left'}">
     <style type="text/css">
+        #videobutton { visibility: hidden }
+        .bottombutton { color: white; font-size: xx-large; width: 85px; }
+        .blackBackground {background-color: black;border: none;}
+        .tabstyle a{ font-size: large; color: white;padding: 7px 15px; background-color: #0091d9 }        
+        .tabstyle a:hover { font-size: larger; color: black; font-style: oblique; background-color: #0091d9}
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus{ 
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2NzMiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CjxzdG9wIHN0b3AtY29sb3I9IiNGQ0IzMTQiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiNGRjcyMDAiIG9mZnNldD0iMSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2c2NzMpIiAvPgo8L3N2Zz4=");
+            color: #ffffff;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+            background-color: #fd990c;
+            background-image: -webkit-linear-gradient(top, #fcb314, #ff7200);
+            background-image: -o-linear-gradient(top, #fcb314, #ff7200);
+            background-image: linear-gradient(to bottom, #fcb314, #ff7200);
+            background-repeat: repeat-x;
+        }
+
         ﻿/* Generic pane rules */
         body { margin: 0; -webkit-text-size-adjust: 100%;overflow: hidden; min-width: 300px}
         .page { left: 0; right: 0; top: 0; bottom: 0;overflow: hidden; }
@@ -27,12 +83,12 @@
         /* Workaround: in landscape mode, IEMobile makes bottom toolbar overlap the page, so shorten the page by 75px to compensate */
         .iemobile .page { bottom: -6px; }
 
-
+        body { right: 5px;}
 
         @media screen and (orientation:landscape) { .iemobile .page { bottom: 75px; } }
         .right.col { right: 0; left: 0px; overflow: hidden; }
         .header.row { height: 75px; line-height: 75px; }
-        .body.row { top: 42px; bottom: 0; background-color: black;right: -15px}
+        .body.row { top: 42px; bottom: 0; background-color: black;right: -1px}
         .footer.row { height: 0; bottom: 0; line-height: 0; background-color: black;}
 
         .leftcolumn {
@@ -40,7 +96,8 @@
             /* whatever width you want */
             display: block;
             position: relative;
-            bottom: 42px;
+            top: 1px;
+
         }
         .leftcolumn:after {
             padding-top: 56.25%;
@@ -66,11 +123,12 @@
             height: 100%;
             width: 25%;
             float: right;   
+            padding-right: 5px;
             bottom: 42px;
             background-color: black;
             overflow-y: auto;
         }
-        
+
         @media (max-width: 768px) and (orientation: portrait) {
             .bodycol {
                 height: 100%;
@@ -117,7 +175,7 @@
         }
         .hamberger {
             float: right;line-height: 42px;display: inline-block;box-sizing: border-box;
-            margin-right: 10px;
+            margin-right: 20px;
         }
         .chatinput {
             position: relative;
@@ -125,7 +183,7 @@
             width:  100%;
             //  float: bottom;
             //bottom: 1px;
-        }
+        }100
     </style>
 
     <div class="header row">
@@ -157,10 +215,7 @@
     <div class="body row bodycol">
         <div class="leftcolumn">
             <div class="main">
-                <video controls autoplay style="width: 100%;background-color: black" ng-show="html5video"></video>
-                <iframe ng-hide="html5video" style="width: 100%;background-color: black;border: none;" src="{{videolink}}"></iframe>
-                
-                <youtube-video ng-hide="html5video" style="width: 100%;background-color: black;border: none;" video-url="videolink"></youtube-video>
+                <video controls autoplay style="width: 100%;background-color: black" my-youtube code="videolink"></video>
             </div>
         </div>
         <div class="rightcolumn" scroll-glue>
@@ -172,51 +227,51 @@
         </div>
     </div>
     <script>
-            (function localFileVideoPlayerInit(win) {
-                var URL = win.URL || win.webkitURL,
-                        displayMessage = (function displayMessageInit() {
-                            var node = document.querySelector('#message');
+                (function localFileVideoPlayerInit(win) {
+                    var URL = win.URL || win.webkitURL,
+                            displayMessage = (function displayMessageInit() {
+                                var node = document.querySelector('#message');
 
-                            return function displayMessage(message, isError) {
-                                node.innerHTML = message;
-                                node.className = isError ? 'error' : 'info';
-                            };
-                        }()),
-                        playSelectedFile = function playSelectedFileInit(event) {
-                            var file = this.files[0];
+                                return function displayMessage(message, isError) {
+                                    node.innerHTML = message;
+                                    node.className = isError ? 'error' : 'info';
+                                };
+                            }()),
+                            playSelectedFile = function playSelectedFileInit(event) {
+                                var file = this.files[0];
 
-                            var type = file.type;
+                                var type = file.type;
 
-                            var videoNode = document.querySelector('video');
+                                var videoNode = document.querySelector('video');
 
-                            var canPlay = videoNode.canPlayType(type);
+                                var canPlay = videoNode.canPlayType(type);
 
-                            canPlay = (canPlay === '' ? 'no' : canPlay);
+                                canPlay = (canPlay === '' ? 'no' : canPlay);
 
-                            var message = 'Can play type "' + type + '": ' + canPlay;
+                                var message = 'Can play type "' + type + '": ' + canPlay;
 
-                            var isError = canPlay === 'no';
+                                var isError = canPlay === 'no';
 
-                            displayMessage(message, isError);
+                                displayMessage(message, isError);
 
-                            if (isError) {
-                                return;
-                            }
+                                if (isError) {
+                                    return;
+                                }
 
-                            var fileURL = URL.createObjectURL(file);
+                                var fileURL = URL.createObjectURL(file);
 
-                            videoNode.src = fileURL;
-                        },
-                        inputNode = document.querySelector('input');
+                                videoNode.src = fileURL;
+                            },
+                            inputNode = document.querySelector('input');
 
-                if (!URL) {
-                    displayMessage('Your browser is not ' +
-                            '<a href="http://caniuse.com/bloburls">supported</a>!', true);
+                    if (!URL) {
+                        displayMessage('Your browser is not ' +
+                                '<a href="http://caniuse.com/bloburls">supported</a>!', true);
 
-                    return;
-                }
+                        return;
+                    }
 
-                inputNode.addEventListener('change', playSelectedFile, false);
-            }(window));
-</script>
+                    inputNode.addEventListener('change', playSelectedFile, false);
+                }(window));
+    </script>
 </div>

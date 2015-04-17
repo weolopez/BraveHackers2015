@@ -1,4 +1,4 @@
-angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'luegg.directives', 'youtube-embed'])
+angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'luegg.directives', 'mobile-angular-ui.components', 'ngCordova'])
         .config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/chat/:name',
                         {
@@ -7,8 +7,30 @@ angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'lueg
                             controller: ChatCtrl
                         });
             }])
+        .service('ShareService', function ($cordovaSocialSharing) {
 
-function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObject, $firebaseAuth, $interval) {
+            var share = function (message, subject, file, link) {
+
+                document.addEventListener("deviceready", function () {
+                    $cordovaSocialSharing
+                            .share(message, subject, file, link)
+                            .then(function (result) {
+                                // Success!
+                                console.dir(result);
+                            }, function (err) {
+                                // An error occurred. Show a message to the user
+                                alert('error');
+                                console.dir(err);
+                            });
+                }, false);
+
+            };
+            return {
+                share: share
+            }
+        });
+function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObject, $firebaseAuth, ShareService) {
+
     $scope.html5video = true;
     $scope.currentRoom = $routeParams.name;
     /* var ref = new Firebase("https://uverse-social.firebaseio.com/chat");
@@ -35,8 +57,9 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
     $scope.addMessage = function () {
         if ($scope.msg.substring(0, 1) === "/") {
             if ($scope.msg.substring(0, 6) === "/video") {
-                $scope.html5video = false;             
+                $scope.html5video = false;
                 $scope.videolink = $scope.msg.substring(7);
+                $scope.msg = "";
             }
         } else {
             $scope.messages.$add(
@@ -55,14 +78,15 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
         auth.$authWithOAuthPopup(provider).then(function (authData) {
             console.log("Logged in as:", authData.uid);
             $scope.user = {};
-            
-            $scope.msg = authData.twitter.cachedUserProfile.name+" has joined the chat";
-            $scope.addMessage();
-            
-            $scope.user.name = authData.twitter.cachedUserProfile.name;           
+
+            $scope.messages.$add(
+                    {message: authData.twitter.cachedUserProfile.name + 'has joined the chat', usericon: $scope.user.icon}
+            );
+
+            $scope.user.name = authData.twitter.cachedUserProfile.name;
             $scope.user.icon = authData.twitter.cachedUserProfile.profile_image_url;
 
-                
+
             if (!room.users)
                 room.users = {};
             if (!room.users[$scope.user.name]) {
@@ -78,5 +102,28 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
     $scope.showMenu = function () {
         snapRemote.toggle('right');
     }
+    $scope.clickvideo = function () {
+        $("#videobutton").css('opacity', '0');
 
+        $("#select_logo").click(function (e) {
+            e.preventDefault();
+            $("#videobutton").trigger('click');
+        });
+    }
+
+
+    $scope.shareLink = function ()
+    {
+        ShareService.share('Message', 'Title', null, 'link');
+
+        /*
+         $cordovaSocialSharing
+         .share('message', 'subject', 'file', 'link') // Share via native share sheet
+         .then(function (result) {
+         alert('Success');
+         }, function (err) {
+         // An error occured. Show a message to the user
+         alert('error');
+         });*/
+    }
 }

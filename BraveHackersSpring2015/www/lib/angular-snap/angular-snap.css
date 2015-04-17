@@ -5,6 +5,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  right: 20px;
 }
 snap-content,
 [snap\:content],
