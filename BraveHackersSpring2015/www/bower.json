@@ -1,0 +1,27 @@
+{
+  "name": "www",
+  "version": "0.0.0",
+  "authors": [
+    "Lopez",
+    "Mauricio (ml5174) <ml5174@att.com>"
+  ],
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node",
+    "yui"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "mobile-angular-ui": "~1.2.0-beta.11"
+  }
+}
