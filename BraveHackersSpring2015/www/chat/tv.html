@@ -4,7 +4,7 @@
         <img src="{{u.icon}}" />
         <h1 style="margin-left: 5px;color: white;">{{u.name}}</h1>
     </div>
-    
+
     <button ng-hide="user" ng-click="login('twitter')" style="bottom: 0">LOGIN</button>
 </div>`
 
@@ -29,17 +29,17 @@
         @media screen and (orientation:landscape) { .iemobile .page { bottom: 75px; } }
         .right.col { right: 0; left: 0px; overflow: hidden; }
         .header.row { height: 75px; line-height: 75px; }
-        .body.row { top: 42px; bottom: 42px; background-color: black}
-        .footer.row { height: 42px; bottom: 0; line-height: 40px; background-color: black;}
+        .body.row { top: 42px; bottom: 0; background-color: black;right: -15px}
+        .footer.row { height: 0; bottom: 0; line-height: 0; background-color: black;}
 
-        .wrapper {
+        .leftcolumn {
             width:75%;
             /* whatever width you want */
             display: block;
             position: relative;
             bottom: 42px;
         }
-        .wrapper:after {
+        .leftcolumn:after {
             padding-top: 56.25%;
             /* 16:9 ratio */
             display: block;
@@ -59,34 +59,34 @@
             /* let's see it! */
             color: white;
         }
-        .chat {
+        .rightcolumn {
+            height: 100%;
             width: 25%;
-            float: right;    
-            right: 0;
+            float: right;   
             bottom: 42px;
             background-color: black;
             overflow-y: auto;
         }
-
+        
         @media (max-width: 768px) and (orientation: portrait) {
-            .wrapper {
-                width: 100%;
-                float: none;
-                position: relative;
-            }
-            .chat {
-                width: 100%;
+            .bodycol {
                 height: 100%;
-                float: none;
-                position: relative;
+            }
+            .leftcolumn {
+                width: 100%;
+                padding-top: 46%;
+            }
+            .rightcolumn {
+                height: 68%;
+                width: 100%;
                 bottom: 0;
             }            
         }
         @media (max-width: 735px) and (orientation: landscape) {
-            .wrapper {
+            .leftcolumn {
                 display: none;
             }
-            .chat {
+            .rightcolumn {
                 width: 100%;
                 height: 100%;
                 float: none;
@@ -112,115 +112,13 @@
             float: right;line-height: 42px;display: inline-block;box-sizing: border-box;
             margin-right: 10px;
         }
-
-        //CHAT BULES
-        /* Bit of normalisation */
-
-
-        img {
-            display: block;
-            height: auto;
-            max-width: 100%;
-        }
-
-        .chatcontainer {
-            padding: 0px 0px;
-            margin: 0 auto;
-            width: 95%;
-        }
-
-        /* .bubble */
-
-        .bubble {
-            background-image: linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
-            background-image: -o-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
-            background-image: -moz-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
-            background-image: -webkit-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
-            background-image: -ms-linear-gradient(bottom, rgb(210,244,254) 25%, rgb(149,194,253) 100%);
-            background-image: -webkit-gradient(
-                linear,
-                left bottom,
-                left top,
-                color-stop(0.25, rgb(210,244,254)),
-                color-stop(1, rgb(149,194,253))
-                );
-            border: solid 1px rgba(0, 0, 0, 0.5);
-            /* vendor rules */
-            border-radius: 20px;
-            /* vendor rules */
-            box-shadow: inset 0 5px 5px rgba(255, 255, 255, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
-            /* vendor rules */
-            box-sizing: border-box;
-            clear: both;
-            float: left;
-            margin-bottom: 20px;
-            padding: 8px 30px;
-            position: relative;
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
-            width: auto;
-            max-width: 100%;
-            word-wrap: break-word;
-        }
-
-        .bubble:before, .bubble:after {
-            border-radius: 20px / 10px;
-            content: '';
-            display: block;
-            position: absolute;
-        }
-
-        .bubble:before {
-            border: 10px solid transparent;
-            border-bottom-color: rgba(0, 0, 0, 0.5);
-            bottom: 0;
-            left: -7px;
-            z-index: -2;
-        }
-
-        .bubble:after {
-            border: 8px solid transparent;
-            border-bottom-color: #d2f4fe;
-            bottom: 1px;
-            left: -5px;
-        }
-
-        .bubble--alt {
-            background-image: linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
-            background-image: -o-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
-            background-image: -moz-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
-            background-image: -webkit-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
-            background-image: -ms-linear-gradient(bottom, rgb(172,228,75) 25%, rgb(122,205,71) 100%);
-            background-image: -webkit-gradient(
-                linear,
-                left bottom,
-                left top,
-                color-stop(0.25, rgb(172,228,75)),
-                color-stop(1, rgb(122,205,71))
-                );
-            float: right;
-        }
-
-        .bubble--alt:before {
-            border-bottom-color: rgba(0, 0, 0, 0.5);
-            border-radius: 20px / 10px;
-            left: auto;
-            right: -7px;
-        }
-
-        .bubble--alt:after {
-            border-bottom-color: #ace44b;
-            border-radius: 20px / 10px;
-            left: auto;
-            right: -5px;
-        }
         .chatinput {
             position: relative;
             float: right;
-            width:  25%;
+            width:  100%;
             //  float: bottom;
             //bottom: 1px;
         }
-        .footer {display:inline-block;margin-left:0px; width: 75%;float: left;background-color: black;}
     </style>
 
     <div class="header row">
@@ -249,26 +147,18 @@
 
         </header>
     </div>
-    <div class="body row scroll-y">
-        <div class="wrapper col">
+    <div class="body row bodycol">
+        <div class="leftcolumn">
             <div class="main">
                 <video controls autoplay style="width: 100%"></video>
             </div>
         </div>
-        <div class="col right" style="overflow: auto;right: -15px" scroll-glue>
-            <div class="chat">
-                <div class="chatcontainer" >
-                    <chat messages="messages"></chat>
-                </div>
+        <div class="rightcolumn" scroll-glue>
+            <chat class="chat" messages="messages"></chat>
+            <div class="chatinput" ng-hide="user">
+                <input type="text" ng-model="msg" style="width: 80%;margin: 3px;padding: 0" ng-keyup="$event.keyCode == 13 && addMessage()"/>
+                <button ng-click="addMessage()"  style="width: 15%;margin: 0;padding: 0">Send</button>
             </div>
-        </div>
-    </div>
-    <div class="footer row" style="width: 100%;">
-        <div class="footer">
-        </div>
-        <div style="background-color: black;height: 45px; display:inline-block; width:25%;float: right;" ng-show="user">
-            <input type="text" ng-model="msg" style="width: 80%;margin: 3px;padding: 0" ng-keyup="$event.keyCode == 13 && addMessage()"/>
-            <button ng-click="addMessage()"  style="width: 15%;margin: 0;padding: 0">Send</button>
         </div>
     </div>
 </div>
