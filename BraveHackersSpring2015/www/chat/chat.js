@@ -1,4 +1,4 @@
-angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'luegg.directives'])
+angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'luegg.directives', 'youtube-embed'])
         .config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/chat/:name',
                         {
@@ -9,7 +9,7 @@ angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'lueg
             }])
 
 function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObject, $firebaseAuth, $interval) {
-
+    $scope.html5video = true;
     $scope.currentRoom = $routeParams.name;
     /* var ref = new Firebase("https://uverse-social.firebaseio.com/chat");
      var chat = $firebaseObject(ref);
@@ -32,13 +32,20 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
         }
     });
 
-
     $scope.addMessage = function () {
-        $scope.messages.$add(
-                {message: $scope.msg, usericon: $scope.user.icon}
-        ).then(function(){
+        if ($scope.msg.substring(0, 1) === "/") {
+            if ($scope.msg.substring(0, 6) === "/video") {
+                $scope.html5video = false;             
+                $scope.videolink = $scope.msg.substring(7);
+            }
+        } else {
+            $scope.messages.$add(
+                    {message: $scope.msg, usericon: $scope.user.icon}
+            ).then(function () {
+                $scope.msg = "";
+            });
             $scope.msg = "";
-        });
+        }
     }
 
     $scope.login = function (provider) {
@@ -48,14 +55,19 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
         auth.$authWithOAuthPopup(provider).then(function (authData) {
             console.log("Logged in as:", authData.uid);
             $scope.user = {};
-            $scope.user.name = authData.twitter.cachedUserProfile.name;
-            $scope.user.icon = authData.twitter.cachedUserProfile.profile_image_url;
             
-            if (!room.users) 
+            $scope.msg = authData.twitter.cachedUserProfile.name+" has joined the chat";
+            $scope.addMessage();
+            
+            $scope.user.name = authData.twitter.cachedUserProfile.name;           
+            $scope.user.icon = authData.twitter.cachedUserProfile.profile_image_url;
+
+                
+            if (!room.users)
                 room.users = {};
-            if (!room.users[$scope.user.name])  {
+            if (!room.users[$scope.user.name]) {
                 room.users[$scope.user.name] = $scope.user;
-                room.$save().then(function(reference){
+                room.$save().then(function (reference) {
                     console.dir(reference);
                 });
             }

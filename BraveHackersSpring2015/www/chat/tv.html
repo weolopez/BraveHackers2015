@@ -6,6 +6,9 @@
     </div>
 
     <button ng-hide="user" ng-click="login('twitter')" style="bottom: 0">LOGIN</button>
+        <h3>Select local video file to play</h3>
+        <div id="message"></div>
+        <input type="file" accept="video/*"/>    
 </div>`
 
 <div class="right col" data-snap-content snap-options="{disable: 'left'}">
@@ -74,12 +77,16 @@
             }
             .leftcolumn {
                 width: 100%;
-                padding-top: 46%;
+                background-color: black;
+                top: 0px;
+                z-index: 1;
             }
             .rightcolumn {
-                height: 68%;
+                z-index: 0;
+                position: absolute;
+                height: 100%;
                 width: 100%;
-                bottom: 0;
+                bottom: 1;
             }            
         }
         @media (max-width: 735px) and (orientation: landscape) {
@@ -150,7 +157,10 @@
     <div class="body row bodycol">
         <div class="leftcolumn">
             <div class="main">
-                <video controls autoplay style="width: 100%"></video>
+                <video controls autoplay style="width: 100%;background-color: black" ng-show="html5video"></video>
+                <iframe ng-hide="html5video" style="width: 100%;background-color: black;border: none;" src="{{videolink}}"></iframe>
+                
+                <youtube-video ng-hide="html5video" style="width: 100%;background-color: black;border: none;" video-url="videolink"></youtube-video>
             </div>
         </div>
         <div class="rightcolumn" scroll-glue>
@@ -161,4 +171,52 @@
             </div>
         </div>
     </div>
+    <script>
+            (function localFileVideoPlayerInit(win) {
+                var URL = win.URL || win.webkitURL,
+                        displayMessage = (function displayMessageInit() {
+                            var node = document.querySelector('#message');
+
+                            return function displayMessage(message, isError) {
+                                node.innerHTML = message;
+                                node.className = isError ? 'error' : 'info';
+                            };
+                        }()),
+                        playSelectedFile = function playSelectedFileInit(event) {
+                            var file = this.files[0];
+
+                            var type = file.type;
+
+                            var videoNode = document.querySelector('video');
+
+                            var canPlay = videoNode.canPlayType(type);
+
+                            canPlay = (canPlay === '' ? 'no' : canPlay);
+
+                            var message = 'Can play type "' + type + '": ' + canPlay;
+
+                            var isError = canPlay === 'no';
+
+                            displayMessage(message, isError);
+
+                            if (isError) {
+                                return;
+                            }
+
+                            var fileURL = URL.createObjectURL(file);
+
+                            videoNode.src = fileURL;
+                        },
+                        inputNode = document.querySelector('input');
+
+                if (!URL) {
+                    displayMessage('Your browser is not ' +
+                            '<a href="http://caniuse.com/bloburls">supported</a>!', true);
+
+                    return;
+                }
+
+                inputNode.addEventListener('change', playSelectedFile, false);
+            }(window));
+</script>
 </div>
