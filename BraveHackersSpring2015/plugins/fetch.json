@@ -68,5 +68,17 @@
             "url": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
             "subdir": "."
         }
+    },
+    "com.att.bravehackers.uverseplugin": {
+        "source": {
+            "type": "local",
+            "path": "UversePlugin"
+        }
+    },
+    "nl.x-services.plugins.toast": {
+        "source": {
+            "type": "local",
+            "path": "Toast-PhoneGap-Plugin"
+        }
     }
 }

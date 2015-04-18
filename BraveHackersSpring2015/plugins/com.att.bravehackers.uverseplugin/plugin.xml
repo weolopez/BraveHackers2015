@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.att.bravehackers.uverseplugin"
+        version="3.2.2">
+
+  <name>Uverse Plugin</name>
+
+  <description>
+    Javascript bindings to Java UverseSDK
+  </description>
+
+  <author>Mauricio Lopez</author>
+
+  <license>MIT</license>
+
+  <keywords>uverse</keywords>
+
+  <repo>https://github.com/weolopez/UversePlugin</repo>
+
+  <issue>https://github.com/weolopez/UversePlugin/issues</issue>
+
+  <preference name="URL_SCHEME" />
+
+  <engines>
+    <engine name="cordova" version=">=3.0.0"/>
+  </engines>
+
+  <!-- ios -->
+  <platform name="ios">
+    <js-module src="www/ios/UversePlugin.js" name="UversePlugin">
+      <clobbers target="window.plugins.uverseplugin" />
+    </js-module>
+
+    <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+      <array>
+        <dict>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>$URL_SCHEME</string>
+          </array>
+        </dict>
+      </array>
+    </config-file>
+  </platform>
+
+  <!-- android -->
+  <platform name="android">
+    <js-module src="www/android/UversePlugin.js" name="UversePlugin">
+      <clobbers target="window.plugins.uverseplugin" />
+    </js-module>
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="UversePlugin">
+        <param name="android-package" value="com.att.bravehackers.uverseplugin"/>
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/com/att/bravehackers/uverseplugin/UversePlugin.java" target-dir="src/com/att/bravehackers/uverseplugin"/>
+
+    <config-file target="AndroidManifest.xml" parent="/*/application/activity">
+      <intent-filter>
+        <data android:scheme="$URL_SCHEME"/>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+      </intent-filter>
+    </config-file>
+  </platform>
+  
+  <!-- windows8 -->
+  <platform name="windows8">
+    <config-file target="package.appxmanifest" parent="/Package/Applications/Application/Extensions">
+      <Extension Category="windows.protocol" StartPage="www/index.html">
+        <Protocol Name="$URL_SCHEME" />
+      </Extension>
+    </config-file>
+    
+    <js-module src="www/windows/UversePlugin" name="UversePlugin">
+      <clobbers target="window.plugins.uverseplugin" />
+    </js-module>
+  </platform>
+	
+  <!-- windows -->
+  <platform name="windows">
+    <config-file target="package.windows.appxmanifest" parent="/Package/Applications/Application/Extensions">
+      <Extension Category="windows.protocol" StartPage="www/index.html">
+        <Protocol Name="$URL_SCHEME" />
+      </Extension>
+    </config-file>
+    <config-file target="package.windows80.appxmanifest" parent="/Package/Applications/Application/Extensions">
+      <Extension Category="windows.protocol" StartPage="www/index.html">
+        <Protocol Name="$URL_SCHEME" />
+      </Extension>
+    </config-file>
+    <config-file target="package.phone.appxmanifest" parent="/Package/Applications/Application/Extensions">
+      <Extension Category="windows.protocol" StartPage="www/index.html">
+        <Protocol Name="$URL_SCHEME" />
+      </Extension>
+    </config-file>
+    <js-module src="www/windows/UversePlugin.js" name="UversePlugin">
+      <clobbers target="window.plugins.uverseplugin" />
+    </js-module>
+  </platform>
+
+</plugin>
