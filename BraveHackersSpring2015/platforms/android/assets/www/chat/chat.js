@@ -114,6 +114,7 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
 
     $scope.shareLink = function ()
     {
+        alert("TO SHARE");
         ShareService.share('Message', 'Title', null, 'link');
 
         /*

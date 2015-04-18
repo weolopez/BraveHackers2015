@@ -4,25 +4,21 @@
   var remainingAttempts = 10;
 
   function waitForAndCallHandlerFunction(url) {
-    
-  alert("IN waitForAndCallHandlerFunction");
-      if (typeof window.handleOpenURL == "function") {
-   
-  alert("IN window.handleOpenUR");
-          window.handleOpenURL(url);
+    if (typeof window.handleOpenURL == "function") {
+      window.handleOpenURL(url);
     } else if (remainingAttempts-- > 0) {
       setTimeout(function(){waitForAndCallHandlerFunction(url)}, 500);
     }
   }
 
   function triggerOpenURL() {
-   alert("IN triggerOpenURL");
-      cordova.exec(
+    cordova.exec(
         waitForAndCallHandlerFunction,
-        function(err) {alert("ERROR:"+err)},
-        "UversePlugin",
+        null,
+        "LaunchMyApp",
         "checkIntent",
         []);
   }
 
-})
+  document.addEventListener("deviceready", triggerOpenURL, false);
+}());

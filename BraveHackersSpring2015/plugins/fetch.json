@@ -80,5 +80,12 @@
             "type": "local",
             "path": "Toast-PhoneGap-Plugin"
         }
+    },
+    "nl.x-services.plugins.launchmyapp": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EddyVerbruggen/LaunchMyApp-PhoneGap-Plugin.git",
+            "subdir": "."
+        }
     }
 }

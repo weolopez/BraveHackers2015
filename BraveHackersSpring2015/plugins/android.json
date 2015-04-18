@@ -19,6 +19,10 @@
                         {
                             "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"LaunchMyApp\"><param name=\"android-package\" value=\"nl.xservices.plugins.LaunchMyApp\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -34,7 +38,7 @@
                     "/*/application/activity": [
                         {
                             "xml": "<intent-filter><data android:scheme=\"uversechat\" /><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /><category android:name=\"android.intent.category.BROWSABLE\" /></intent-filter>",
-                            "count": 1
+                            "count": 2
                         }
                     ]
                 }
@@ -50,6 +54,10 @@
             "PACKAGE_NAME": "com.att.bravehackers.uversesocial"
         },
         "nl.x-services.plugins.toast": {
+            "PACKAGE_NAME": "com.att.bravehackers.uversesocial"
+        },
+        "nl.x-services.plugins.launchmyapp": {
+            "URL_SCHEME": "uversechat",
             "PACKAGE_NAME": "com.att.bravehackers.uversesocial"
         }
     },
