@@ -102,13 +102,14 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
     $scope.showMenu = function () {
         snapRemote.toggle('right');
     }
-    $scope.clickvideo = function () {
+   $scope.clickvideo = function () {
+       /*
         $("#videobutton").css('opacity', '0');
 
         $("#select_logo").click(function (e) {
             e.preventDefault();
             $("#videobutton").trigger('click');
-        });
+        });*/
     }
 
 

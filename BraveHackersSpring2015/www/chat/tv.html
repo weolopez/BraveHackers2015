@@ -9,10 +9,7 @@
                     <a ui-set="{'activeTab': 1}">Users</a>
                 </li>
                 <li ui-class="{'active': activeTab == 2}">
-                    <a ui-set="{'activeTab': 2}">Login</a>
-                </li>
-                <li ui-class="{'active': activeTab == 3}">
-                    <a ui-set="{'activeTab': 3}">Video</a>
+                    <a ui-set="{'activeTab': 2}">Connect</a>
                 </li>
             </ul>
         </div>
@@ -29,20 +26,11 @@
             </div>
 
             <div ui-if="activeTab == 2">
-                <button ng-hide="user" ng-click="login('twitter')" style="bottom: 0;margin: 0 auto;">Twitter Login</button>
-            </div>
-
-            <div ui-if="activeTab == 3">
                 <h3>Select local video file to play</h3>
                 <div id="message"></div>
-                <input id="videobutton" type="file" accept="video/*"/>    
-                
-    <div class="padding" style="background-color: white;">
-        <button class="button" ng-click="showToast('testing the bottom', 'long', 'bottom')">Long Bottom</button>
-        <button class="button" ng-click="showToast('testing the top', 'short', 'top')">Short Top</button>
-        <button class="button" ng-click="showToast('this is a test', 'long', 'center')">Long Center</button>
-    </div>
-            </div>   
+                <input type="file" accept="video/*" style="visibility: visible;"/>    
+                <button ng-hide="user" ng-click="login('twitter')" style="bottom: 0;margin: 0 auto;">Twitter Login</button>
+            </div>
         </div>
 
         <!-- BOTTOM -->
@@ -52,17 +40,16 @@
                 <div id="loginbutton" tabindex="0" class="bottombutton" ng-click="login('twitter')"><i class="fa fa-sign-in"></i></div>
                 <div class="bottombutton"  ng-click="clickvideo()" id="select_logo"><i class="fa fa-video-camera"></i></div>               
                 <div class="bottombutton" ng-click="shareLink()" ><i class="fa fa-share fa5"></i></div>  
-                <input id="videobutton" type="file" accept="video/*"/>    
             </div>
         </div>
     </div>
 </div>
 <div class="right col" data-snap-content snap-options="{disable: 'left'}">
     <style type="text/css">
-        #videobutton { visibility: hidden }
+        //#videobutton { visibility: hidden }
         .bottombutton { color: white; font-size: xx-large; width: 85px; }
         .blackBackground {background-color: black;border: none;}
-        .tabstyle a{ font-size: large; color: white;padding: 7px 15px; background-color: #0091d9 }        
+        .tabstyle a{ font-size: medium; color: white;padding: 7px 15px; background-color: #0091d9 }        
         .tabstyle a:hover { font-size: larger; color: black; font-style: oblique; background-color: #0091d9}
         .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus{ 
             background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2NzMiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CjxzdG9wIHN0b3AtY29sb3I9IiNGQ0IzMTQiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiNGRjcyMDAiIG9mZnNldD0iMSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2c2NzMpIiAvPgo8L3N2Zz4=");
@@ -129,7 +116,7 @@
             height: 100%;
             width: 25%;
             float: right;   
-            padding-right: 5px;
+            padding-right: 15px;
             bottom: 42px;
             background-color: black;
             overflow-y: auto;
@@ -221,7 +208,8 @@
     <div class="body row bodycol">
         <div class="leftcolumn">
             <div class="main">
-                <video controls autoplay style="width: 100%;background-color: black" my-youtube code="videolink"></video>
+                <video controls autoplay style="width: 100%;background-color: black" ng-hide="html5video"></video>
+                <div my-youtube code="videolink" ng-show="html5video"></div>
             </div>
         </div>
         <div class="rightcolumn" scroll-glue>
