@@ -9,37 +9,64 @@
                     <a ui-set="{'activeTab': 1}">Users</a>
                 </li>
                 <li ui-class="{'active': activeTab == 2}">
-                    <a ui-set="{'activeTab': 2}">Connect</a>
+                    <a ui-set="{'activeTab': 2}">Rooms</a>
+                </li>
+                <li ui-class="{'active': activeTab == 3}">
+                    <a ui-set="{'activeTab': 3}">Settings</a>
                 </li>
             </ul>
         </div>
 
-        <!-- Middle -->
+        <!-- Middle <ui-switch  ng-model="invoice.paid"></ui-switch>-->
 
         <div class="app-body  blackBackground">
             <div ui-if="activeTab == 1">
-                <div ng-repeat="u in usersArray" style="positio
-                     .blackBackgroundn: relative;display: inline-flex;width: 100%;">
+                <div ng-repeat="u in usersArray" style="position: relative;display: inline-flex;width: 100%;">
                     <img src="{{u.icon}}" />
                     <h1 style="margin-left: 5px;color: white;">{{u.name}}</h1>
                 </div>
             </div>
 
             <div ui-if="activeTab == 2">
-                <h3>Select local video file to play</h3>
-                <div id="message"></div>
-                <input type="file" accept="video/*" style="visibility: visible;"/>    
-                <button ng-hide="user" ng-click="login('twitter')" style="bottom: 0;margin: 0 auto;">Twitter Login</button>
+                <h1 style="margin-top: 5px;width: 100%; ;text-align: center;color: white;">{{currentRoom}}</h1>
+                <ul class="nav nav-tabs" >
+                    <li style="font-size: x-large">
+                        <a ng-click="addingRoom = false">List</a>
+                    </li>
+                    <li style="float: right">
+                        <a style="font-size: x-large" ng-click="addingRoom = true">+</a>
+                    </li>
+                </ul>
+                <div class="blackBackground" style="color: white;width: 100%;margin-top: 55px;">                    
+                    <div id="addroom"  ng-show="addingRoom" style="padding-left: 10px;">
+                        <label for="roomname">Room Name</label>    
+                        <input type="text" width="100" ng-keyup="$event.keyCode == 13 && addRoom()" ng-model="roomName"/>                        
+                    </div>
+                    <div id="roomlist" ng-hide="addingRoom">
+                        <div ng-repeat="r in rooms" style="margin-left: 10px;">
+                            <h3>{{r.name}}</h3>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div ui-if="activeTab == 3">
+                <div ng-repeat="s in settings" style="position: relative;display: inline-block;width: 100%;" ng-click="s.isTrue=!s.isTrue;">                    
+                    <h1 style="margin-left: 5px;color: white;float: left;">{{s.name}}</h1>
+                    <ui-switch  ng-model="s.isTrue" style="float: right;"></ui-switch>
+                </div>
             </div>
         </div>
-
         <!-- BOTTOM -->
 
         <div class="navbar navbar-app navbar-absolute-bottom blackBackground">       
-            <div class="btn-group justified" style="margin-left: 20px;">
-                <div id="loginbutton" tabindex="0" class="bottombutton" ng-click="login('twitter')"><i class="fa fa-sign-in"></i></div>
-                <div class="bottombutton"  ng-click="clickvideo()" id="select_logo"><i class="fa fa-video-camera"></i></div>               
+            <div class="btn-group justified" style="margin-left: 20px;"> 
+                <div class="bottombutton"  ng-click="clickvideo()" id="select_logo"><i class="fa fa-video-camera"></i></div>            
+                <div id="loginbutton" tabindex="0" class="bottombutton" ng-click="login('twitter')"><i class="fa fa-sign-in"></i></div>  
                 <div class="bottombutton" ng-click="shareLink()" ><i class="fa fa-share fa5"></i></div>  
+                
+<input id="videoinput" type="file" accept="video/*"/>
             </div>
         </div>
     </div>
@@ -58,7 +85,8 @@
             background-color: #fd990c;
             background-image: -webkit-linear-gradient(top, #fcb314, #ff7200);
             background-image: -o-linear-gradient(top, #fcb314, #ff7200);
-            background-image: linear-gradient(to bottom, #fcb314, #ff7200);
+            background-image: linear-gradie
+                <div id="message"></div>nt(to bottom, #fcb314, #ff7200);
             background-repeat: repeat-x;
         }
 
@@ -115,17 +143,22 @@
         .rightcolumn {
             height: 100%;
             width: 25%;
+            min-width: 300px;
             float: right;   
             padding-right: 15px;
             bottom: 42px;
             background-color: black;
             overflow-y: auto;
         }
-
+        .video {width: 100%;}
+        @media (max-width: 1070px) {
+            .video {width: 75%;}
+        }
         @media (max-width: 768px) and (orientation: portrait) {
             .bodycol {
                 height: 100%;
             }
+            .video {width: 100%;}
             .leftcolumn {
                 width: 100%;
                 background-color: black;
@@ -176,7 +209,7 @@
             width:  100%;
             //  float: bottom;
             //bottom: 1px;
-        }100
+        }
     </style>
 
     <div class="header row">
@@ -206,11 +239,14 @@
         </header>
     </div>
     <div class="body row bodycol">
-        <div class="leftcolumn">
-            <div class="main">
-                <video controls autoplay style="width: 100%;background-color: black" ng-hide="html5video"></video>
-                <div my-youtube code="videolink" ng-show="html5video"></div>
+        <div class="leftcolumn" style="background-color: white;">
+            <div class="main" >
+                <video class="video" style="background-color: black;" controls autoplay></video>
+                <div my-youtube code="videolink" ng-show="false"></div>
+
+<div id="message"></div>
             </div>
+
         </div>
         <div class="rightcolumn" scroll-glue>
             <chat class="chat" messages="messages"></chat>
@@ -221,6 +257,7 @@
         </div>
     </div>
     <script>
+
                 (function localFileVideoPlayerInit(win) {
                     var URL = win.URL || win.webkitURL,
                             displayMessage = (function displayMessageInit() {
@@ -256,15 +293,13 @@
 
                                 videoNode.src = fileURL;
                             },
-                            inputNode = document.querySelector('input');
+                            inputNode = document.querySelector('#videoinput');
 
                     if (!URL) {
                         displayMessage('Your browser is not ' +
                                 '<a href="http://caniuse.com/bloburls">supported</a>!', true);
-
                         return;
                     }
-
                     inputNode.addEventListener('change', playSelectedFile, false);
                 }(window));
     </script>

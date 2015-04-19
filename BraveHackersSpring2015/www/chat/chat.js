@@ -6,6 +6,12 @@ angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'lueg
                             templateUrl: 'chat/tv.html',
                             controller: ChatCtrl
                         });
+                $routeProvider.when('/chat/:name/:childroom',
+                        {
+                            title: 'Chat',
+                            templateUrl: 'chat/tv.html',
+                            controller: ChatCtrl
+                        });
             }])
         .service('ShareService', function ($cordovaSocialSharing) {
 
@@ -31,22 +37,38 @@ angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'lueg
         });
 function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObject, $firebaseAuth, ShareService, $cordovaToast) {
 
+    $scope.settings = [];
+    $scope.settings.push({name: "moderated", isTrue: true});
+    $scope.settings.push({name: "private", isTrue: true});
+    $scope.settings.push({name: "locked", isTrue: false});
+
     $scope.html5video = true;
-    $scope.currentRoom = $routeParams.name;
+
+    $scope.childRoom = $routeParams.childroom;
+    if ($scope.childRoom === undefined)
+        $scope.childRoom = "";
+    else
+        $scope.childRoom = "+" + $scope.childRoom;
+    $scope.currentRoom = $routeParams.name + $scope.childRoom;
+
     /* var ref = new Firebase("https://uverse-social.firebaseio.com/chat");
      var chat = $firebaseObject(ref);
      if (chat === undefined) chat = {chat:{}};
      chat.$save();*/
     var ref = new Firebase("https://uverse-social.firebaseio.com/chat/rooms/" + $scope.currentRoom);
+
+    $scope.rooms = $firebaseArray(ref.parent());
     var room = $firebaseObject(ref);
     room.$loaded().then(function () {
         if (room.name === undefined) {
             room.name = $scope.currentRoom;
             room.messages = {};
             room.users = {};
+            room.childRooms = {};
             room.$save().then(function () {
                 $scope.messages = $firebaseArray(ref.child('messages'));
                 $scope.usersArray = $firebaseArray(ref.child('users'));
+                $scope.childRooms = $firebaseArray(ref.child('childRooms'));
             });
         } else {
             $scope.messages = $firebaseArray(ref.child('messages'));
@@ -62,6 +84,7 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
                 $scope.msg = "";
             }
         } else {
+
             $scope.messages.$add(
                     {message: $scope.msg, usericon: $scope.user.icon}
             ).then(function () {
@@ -76,16 +99,15 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
         var auth = $firebaseAuth(ref);
         // login with Facebook
         auth.$authWithOAuthPopup(provider).then(function (authData) {
-            console.log("Logged in as:", authData.uid);
+            console.log("Logged in as:", authData.twitter.cachedUserProfile.name);
+
             $scope.user = {};
+            $scope.user.name = authData.twitter.cachedUserProfile.name;
+            $scope.user.icon = authData.twitter.cachedUserProfile.profile_image_url;
 
             $scope.messages.$add(
                     {message: authData.twitter.cachedUserProfile.name + 'has joined the chat', usericon: $scope.user.icon}
             );
-
-            $scope.user.name = authData.twitter.cachedUserProfile.name;
-            $scope.user.icon = authData.twitter.cachedUserProfile.profile_image_url;
-
 
             if (!room.users)
                 room.users = {};
@@ -102,14 +124,14 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
     $scope.showMenu = function () {
         snapRemote.toggle('right');
     }
-   $scope.clickvideo = function () {
-       /*
-        $("#videobutton").css('opacity', '0');
-
-        $("#select_logo").click(function (e) {
-            e.preventDefault();
-            $("#videobutton").trigger('click');
-        });*/
+    $scope.clickvideo = function () {
+        /*
+         $("#videobutton").css('opacity', '0');
+         
+         $("#select_logo").click(function (e) {
+         e.preventDefault();
+         $("#videobutton").trigger('click');
+         });*/
     }
 
 
@@ -130,14 +152,28 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
     }
 
     $scope.showToast = function (message, duration, location) {
-        $cordovaToast.show(message, duration, location, function(returnmessage){
-            alert("GOODJOB: "+returnmessage);
-        }, function(returnmessage) {
-            alert("toobad: "+returnmessage);
+        $cordovaToast.show(message, duration, location, function (returnmessage) {
+            alert("GOODJOB: " + returnmessage);
+        }, function (returnmessage) {
+            alert("toobad: " + returnmessage);
         }).then(function (success) {
-            alert("The toast was shown:"+success);
+            alert("The toast was shown:" + success);
         }, function (error) {
             alert("The toast was not shown due to " + error);
+        });
+    }
+    $scope.addRoom = function () {
+        var newroomname = $scope.currentRoom+'+'+this.roomName;
+        var newroom = $firebaseObject(ref.parent().child(newroomname));
+        newroom.name = newroomname;
+        this.addingRoom = false;
+        newroom.messages = {};
+        newroom.users = {};
+        newroom.childRooms = {};
+        newroom.$save().then(function () {
+            $scope.messages = $firebaseArray(ref.parent().child(newroomname).child('messages'));
+            $scope.usersArray = $firebaseArray(ref.parent().child(newroomname).child('users'));
+            $scope.childRooms = $firebaseArray(ref.parent().child(newroomname).child('childRooms'));
         });
     }
 }
