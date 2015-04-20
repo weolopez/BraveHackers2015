@@ -1,4 +1,4 @@
-angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'luegg.directives', 'mobile-angular-ui.components', 'ngCordova', 'ionic'])
+angular.module('app.chat', ['djds4rce.angular-socialshare', 'ngRoute', 'snap', 'chatDirecive', 'firebase', 'luegg.directives', 'mobile-angular-ui.components', 'ngCordova', 'ionic'])
         .config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/chat/:name',
                         {
@@ -12,6 +12,8 @@ angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'lueg
                             templateUrl: 'chat/tv.html',
                             controller: ChatCtrl
                         });
+
+                $routeProvider.when('/overlay', {templateUrl: '/chat/overlay.html', reloadOnSearch: false});
             }])
         .service('ShareService', function ($cordovaSocialSharing) {
 
@@ -35,7 +37,8 @@ angular.module('app.chat', ['ngRoute', 'snap', 'chatDirecive', 'firebase', 'lueg
                 share: share
             }
         });
-function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObject, $firebaseAuth, ShareService, $cordovaToast) {
+function ChatCtrl($timeout, $scope, snapRemote, $routeParams, $firebaseArray, $firebaseObject, $firebaseAuth, ShareService, $cordovaToast, $ionicActionSheet, $location) {
+    var absUrl = $location.absUrl();
 
     $scope.settings = [];
     $scope.settings.push({name: "moderated", isTrue: true});
@@ -106,7 +109,7 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
             $scope.user.icon = authData.twitter.cachedUserProfile.profile_image_url;
 
             $scope.messages.$add(
-                    {message: authData.twitter.cachedUserProfile.name + 'has joined the chat', usericon: $scope.user.icon}
+                    {message: authData.twitter.cachedUserProfile.name + ' has joined the chat', usericon: $scope.user.icon}
             );
 
             if (!room.users)
@@ -137,7 +140,7 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
 
     $scope.shareLink = function ()
     {
-        alert("TO SHARE");
+        $scope.show('Join the Chat', 'Its on', absUrl)
         ShareService.share('Message', 'Title', null, 'link');
 
         /*
@@ -163,7 +166,7 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
         });
     }
     $scope.addRoom = function () {
-        var newroomname = $scope.currentRoom+'+'+this.roomName;
+        var newroomname = $scope.currentRoom + '+' + this.roomName;
         var newroom = $firebaseObject(ref.parent().child(newroomname));
         newroom.name = newroomname;
         this.addingRoom = false;
@@ -176,4 +179,32 @@ function ChatCtrl($scope, snapRemote, $routeParams, $firebaseArray, $firebaseObj
             $scope.childRooms = $firebaseArray(ref.parent().child(newroomname).child('childRooms'));
         });
     }
+
+    // Triggered on a button click, or some other target
+    $scope.show = function (msg, title, link) {
+        var message = title + " " + msg + " " + link
+        // Show the action sheet
+        $scope.hideSheet = $ionicActionSheet.show({
+            buttons: [
+                {text: message},
+                {text: 'Share'}
+            ],
+            titleText: 'Share on Twitter',
+            cancelText: 'Cancel',
+            cancel: function () {
+            },
+            buttonClicked: function (index) {
+                var twtLink = 'http://twitter.com/home?status=' +encodeURIComponent(message);
+                window.open(twtLink,'_blank');
+                return true;
+            }
+        });
+
+        // For example's sake, hide the sheet after two seconds
+        $timeout(function () {
+            //  $scope.hideSheet();
+        }, 2000);
+
+    };
+
 }
