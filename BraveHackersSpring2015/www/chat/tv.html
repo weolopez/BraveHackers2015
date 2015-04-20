@@ -65,7 +65,7 @@
                 <div class="bottombutton"  ng-click="clickvideo()" id="select_logo"><i class="fa fa-video-camera"></i></div>            
                 <div id="loginbutton" tabindex="0" class="bottombutton" ng-click="login('twitter')"><i class="fa fa-sign-in"></i></div>  
                 <div class="bottombutton" ng-click="shareLink()" ><i class="fa fa-share fa5"></i></div>  
-                
+            
 <input id="videoinput" type="file" accept="video/*"/>
             </div>
         </div>
@@ -73,6 +73,8 @@
 </div>
 <div class="right col" data-snap-content snap-options="{disable: 'left'}">
     <style type="text/css">
+        #videoinput { opacity: 0; }
+        .action-sheet-backdrop { z-index: 999;}
         //#videobutton { visibility: hidden }
         .bottombutton { color: white; font-size: xx-large; width: 85px; }
         .blackBackground {background-color: black;border: none;}
@@ -245,6 +247,7 @@
                 <div my-youtube code="videolink" ng-show="false"></div>
 
               <div id="message" style="color: black"></div>
+              <div ui-yield-to="modals">CLICK ME</div>
             </div>
 
         </div>
@@ -303,4 +306,5 @@
                     inputNode.addEventListener('change', playSelectedFile, false);
                 }(window));
     </script>
+    
 </div>
